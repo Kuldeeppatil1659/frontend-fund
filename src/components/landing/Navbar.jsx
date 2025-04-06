@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-white shadow-md text-gray-900' : 'bg-transparent text-white'
+        scrolled ? 'bg-white shadow-md text-gray-900' : 'bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

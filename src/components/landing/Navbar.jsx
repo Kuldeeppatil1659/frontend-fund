@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Users, Trophy, ArrowRight, DollarSign, BarChart3, Globe2, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,10 +38,10 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="hover:text-emerald-600">Home</a>
-            <a href="#" className="hover:text-emerald-600">About</a>
-            <a href="#" className="hover:text-emerald-600">Projects</a>
-            <a href="#" className="hover:text-emerald-600">Contact</a>
+            <Link to="/" className="hover:text-emerald-600">Home</Link>
+            <Link to="/browse" className="hover:text-emerald-600">Browse Fundraisers</Link>
+            {/* <Link href="#" className="hover:text-emerald-600">Projects</Link>
+            <Link href="#" className="hover:text-emerald-600">Contact</Link> */}
             <button className="bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">
               Donate Now
             </button>

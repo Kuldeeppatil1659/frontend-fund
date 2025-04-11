@@ -3,9 +3,10 @@ import { Search, ChevronDown } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function BrowseFundraisers() {
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedCategory, setSelectedCategory] = useState(["All Categories"]);
   const [selectedTrending, setSelectedTrending] = useState("Trending");
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,6 +14,7 @@ function BrowseFundraisers() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef(null);
+  const navigate = useNavigate();
 
   // Fetch campaigns when the component mounts
   useEffect(() => {
@@ -51,6 +53,10 @@ function BrowseFundraisers() {
     },
     [hasMore]
   );
+
+  const handleCampaignClick = () => {
+    navigate(`/campaign`);
+  };
 
   return (
     <>
@@ -111,7 +117,8 @@ function BrowseFundraisers() {
                       <div
                         ref={lastCampaignRef}
                         key={campaign.id}
-                        className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                        className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => handleCampaignClick(campaign.id)}
                       >
                         <img
                           src={campaign.image}
@@ -130,7 +137,7 @@ function BrowseFundraisers() {
                               </div>
                               <div className="flex justify-between">
                                 <span className="font-semibold">
-                                  {/* ₹{campaign.fundsRequired.toLocaleString()} */}
+                                  ₹{campaign.goal}
                                 </span>
                                 <span className="text-red-500 font-medium">
                                   {campaign.daysLeft} Days
@@ -142,8 +149,8 @@ function BrowseFundraisers() {
                                 className="bg-emerald-500 h-2 rounded-full"
                                 style={{
                                   width: `${
-                                    (campaign.fundsRaised /
-                                      campaign.fundsRequired) *
+                                    (20000 /
+                                      campaign.goal) *
                                     100
                                   }%`,
                                 }}
@@ -175,7 +182,8 @@ function BrowseFundraisers() {
                     return (
                       <div
                         key={campaign.id}
-                        className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                        className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => handleCampaignClick(campaign.id)}
                       >
                         <img
                           src={campaign.image}

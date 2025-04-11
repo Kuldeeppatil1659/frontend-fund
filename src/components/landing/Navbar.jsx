@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Users, Trophy, ArrowRight, DollarSign, BarChart3, Globe2, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,10 +23,13 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isHomePage = location.pathname === '/';
+
   return (
     <nav
       className={`fixed w-full z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-white shadow-md text-gray-900' : 'bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white'
+        isHomePage && !scrolled ? 'bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white'
+      : 'bg-white text-gray-900 shadow-md'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

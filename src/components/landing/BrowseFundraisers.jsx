@@ -14,12 +14,24 @@ function BrowseFundraisers() {
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef(null);
 
-  // Fetch campaigns when the component mounts
+  // const checkAuthStatus = async () => {
+  //   const res = await axios.head("http://localhost:4000/api/auth/me", {
+  //     withCredentials: true,
+  //   });
+  //   return res.status === true;
+  // };
+
+  const handleContributeClick = async (campaignId) => {
+    console.log("Contribute button clicked for campaign ID:", campaignId);
+    // const user = await checkAuthStatus();
+
+    window.location.href = "http://localhost:4000/api/auth/google";
+  };
+
   useEffect(() => {
-    fetchCampaigns(1); // Fetch the first page initially
+    fetchCampaigns(1);
   }, []);
 
-  // Fetch campaigns when the page changes (for infinite scroll)
   useEffect(() => {
     if (page > 1) {
       fetchCampaigns(page);
@@ -163,7 +175,12 @@ function BrowseFundraisers() {
                                   {campaign.donorsCount} people donated
                                 </span>
                               </div>
-                              <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors">
+                              <button
+                                onClick={() =>
+                                  handleContributeClick(campaign.id)
+                                }
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors"
+                              >
                                 CONTRIBUTE
                               </button>
                             </div>
@@ -227,7 +244,12 @@ function BrowseFundraisers() {
                                   {campaign.donorsCount} people donated
                                 </span>
                               </div>
-                              <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors">
+                              <button
+                                onClick={() =>
+                                  handleContributeClick(campaign._id)
+                                }
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors"
+                              >
                                 CONTRIBUTE
                               </button>
                             </div>

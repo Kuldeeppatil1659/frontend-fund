@@ -6,8 +6,6 @@ import Footer from './Footer';
 function Landing() {
   return (
     <div className="min-h-screen bg-white">
-    {/* Navigation */}
-    <Navbar/>
 
     {/* Hero Section */}
     <div className="relative h-screen">

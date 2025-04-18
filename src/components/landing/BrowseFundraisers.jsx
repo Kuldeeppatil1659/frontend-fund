@@ -57,10 +57,14 @@ function BrowseFundraisers() {
   const fetchCampaigns = async (page, location = selectedLocation) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/fundRaiser/createFundRaiserPost?page=${page}&limit=2&location=${location}`
+        `http://localhost:4000/api/fundRaiser/createFundRaiserPost?page=${page}&limit=10&location=${location}`
       );
       const newCampaigns = response.data.posts;
-      setCampaigns((prevCampaigns) => [...prevCampaigns, ...newCampaigns]);
+setCampaigns((prevCampaigns) => {
+  const existingIds = new Set(prevCampaigns.map(c => c._id));
+  const filteredNew = newCampaigns.filter(c => !existingIds.has(c._id));
+  return [...prevCampaigns, ...filteredNew];
+});
       setHasMore(newCampaigns.length > 0); // Check if there are more campaigns
     } catch (err) {
       console.error(err);
@@ -86,7 +90,6 @@ function BrowseFundraisers() {
 
   return (
     <>
-      <Navbar />
 
       <div className="min-h-screen bg-gray-50 pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

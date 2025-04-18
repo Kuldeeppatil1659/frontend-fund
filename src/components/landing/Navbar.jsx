@@ -36,8 +36,8 @@ const Navbar = () => {
   const isHomePage = location.pathname === "/";
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-colors duration-300 ${
+    <div
+      className={` w-full z-50 transition-colors duration-300 ${
         isHomePage && !scrolled
           ? "bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white"
           : "bg-white text-gray-900 shadow-md"
@@ -59,6 +59,13 @@ const Navbar = () => {
             <Link to="/browse" className="hover:text-emerald-600">
               Browse Fundraisers
             </Link>
+            <Link
+              to="/startFundraiser"
+              className="hover:text-emerald-600"
+            >
+              Start a Fundraisers
+            </Link>
+
             {/* <Link href="#" className="hover:text-emerald-600">Projects</Link>
             <Link href="#" className="hover:text-emerald-600">Contact</Link> */}
             <button className="bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">
@@ -95,6 +102,12 @@ const Navbar = () => {
             >
               Browse Fundraisers
             </Link>
+            <Link
+              to="/startFundraiser"
+              className="block px-3 py-2 hover:text-emerald-600"
+            >
+              Start a Fundraisers
+            </Link>
 
             <div className="px-3 py-2">
               <button className="w-full bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">
@@ -104,7 +117,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </div>
   );
 };
 

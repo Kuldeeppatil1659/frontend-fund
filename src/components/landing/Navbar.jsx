@@ -44,6 +44,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="hover:text-emerald-600">Home</Link>
             <Link to="/browse" className="hover:text-emerald-600">Browse Fundraisers</Link>
+            <Link to="/browse" className="hover:text-emerald-600">Start a Fundraisers</Link>
             {/* <Link href="#" className="hover:text-emerald-600">Projects</Link>
             <Link href="#" className="hover:text-emerald-600">Contact</Link> */}
             <button className="bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">

@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DonationModal from "../Utilities/DonationModal";
 
 function BrowseFundraisers() {
   const [selectedCategory, setSelectedCategory] = useState(["All Categories"]);
@@ -15,6 +16,9 @@ function BrowseFundraisers() {
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef(null);
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
 
   // Fetch campaigns when the component mounts
   useEffect(() => {
@@ -118,8 +122,7 @@ function BrowseFundraisers() {
                         ref={lastCampaignRef}
                         key={campaign.id}
                         className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        onClick={() => handleCampaignClick(campaign.id)}
-                      >
+                        onClick={() => handleCampaignClick(campaign.id)}>
                         <img
                           src={campaign.image}
                           alt={campaign.title}
@@ -148,13 +151,8 @@ function BrowseFundraisers() {
                               <div
                                 className="bg-emerald-500 h-2 rounded-full"
                                 style={{
-                                  width: `${
-                                    (20000 /
-                                      campaign.goal) *
-                                    100
-                                  }%`,
-                                }}
-                              ></div>
+                                  width: `${(20000 / campaign.goal) * 100}%`,
+                                }}></div>
                             </div>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center">
@@ -162,15 +160,21 @@ function BrowseFundraisers() {
                                   {[...Array(3)].map((_, i) => (
                                     <div
                                       key={i}
-                                      className="w-6 h-6 rounded-full border-2 border-white bg-gray-200"
-                                    ></div>
+                                      className="w-6 h-6 rounded-full border-2 border-white bg-gray-200"></div>
                                   ))}
                                 </div>
                                 <span className="ml-2 text-sm text-gray-500">
                                   {campaign.donorsCount} people donated
                                 </span>
                               </div>
-                              <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors">
+                              <button
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedCampaign(campaign);
+                                  setShowModal(true);
+                                }}
+                                >
                                 CONTRIBUTE
                               </button>
                             </div>
@@ -183,8 +187,7 @@ function BrowseFundraisers() {
                       <div
                         key={campaign.id}
                         className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        onClick={() => handleCampaignClick(campaign.id)}
-                      >
+                        onClick={() => handleCampaignClick(campaign.id)}>
                         <img
                           src={campaign.image}
                           alt={campaign.title}
@@ -218,8 +221,7 @@ function BrowseFundraisers() {
                                       campaign.fundsRequired) *
                                     100
                                   }%`,
-                                }}
-                              ></div>
+                                }}></div>
                             </div>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center">
@@ -227,15 +229,21 @@ function BrowseFundraisers() {
                                   {[...Array(3)].map((_, i) => (
                                     <div
                                       key={i}
-                                      className="w-6 h-6 rounded-full border-2 border-white bg-gray-200"
-                                    ></div>
+                                      className="w-6 h-6 rounded-full border-2 border-white bg-gray-200"></div>
                                   ))}
                                 </div>
                                 <span className="ml-2 text-sm text-gray-500">
                                   {campaign.donorsCount} people donated
                                 </span>
                               </div>
-                              <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors">
+                              <button
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700 transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedCampaign(campaign);
+                                  setShowModal(true);
+                                }}
+                                >
                                 CONTRIBUTE
                               </button>
                             </div>
@@ -250,6 +258,8 @@ function BrowseFundraisers() {
           </div>
         </div>
       </div>
+      <DonationModal isOpen={showModal} onClose={() => setShowModal(false)} />
+
       <Footer />
     </>
   );

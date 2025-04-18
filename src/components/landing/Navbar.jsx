@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Heart, Users, Trophy, ArrowRight, DollarSign, BarChart3, Globe2, Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {
+  Heart,
+  Users,
+  Trophy,
+  ArrowRight,
+  DollarSign,
+  BarChart3,
+  Globe2,
+  Menu,
+  X,
+} from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,19 +27,20 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Clean up the event listener on unmount
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
 
   return (
     <nav
       className={`fixed w-full z-50 transition-colors duration-300 ${
-        isHomePage && !scrolled ? 'bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white'
-      : 'bg-white text-gray-900 shadow-md'
+        isHomePage && !scrolled
+          ? "bg-white sm:bg-white lg:bg-transparent sm:text-black lg:text-white"
+          : "bg-white text-gray-900 shadow-md"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,8 +53,12 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="hover:text-emerald-600">Home</Link>
-            <Link to="/browse" className="hover:text-emerald-600">Browse Fundraisers</Link>
+            <Link to="/" className="hover:text-emerald-600">
+              Home
+            </Link>
+            <Link to="/browse" className="hover:text-emerald-600">
+              Browse Fundraisers
+            </Link>
             {/* <Link href="#" className="hover:text-emerald-600">Projects</Link>
             <Link href="#" className="hover:text-emerald-600">Contact</Link> */}
             <button className="bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">
@@ -71,10 +86,16 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-            <a href="#" className="block px-3 py-2 hover:text-emerald-600">Home</a>
-            <a href="#" className="block px-3 py-2 hover:text-emerald-600">About</a>
-            <a href="#" className="block px-3 py-2 hover:text-emerald-600">Projects</a>
-            <a href="#" className="block px-3 py-2 hover:text-emerald-600">Contact</a>
+            <Link to="/" className="block px-3 py-2 hover:text-emerald-600">
+              Home
+            </Link>
+            <Link
+              to="/browse"
+              className="block px-3 py-2 hover:text-emerald-600"
+            >
+              Browse Fundraisers
+            </Link>
+
             <div className="px-3 py-2">
               <button className="w-full bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-emerald-700 transition-colors">
                 Donate Now

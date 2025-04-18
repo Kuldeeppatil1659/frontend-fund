@@ -15,6 +15,8 @@ function BrowseFundraisers() {
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef(null);
   const navigate = useNavigate();
+  const [states, setStates] = useState([]);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
 
   // Fetch campaigns when the component mounts
   useEffect(() => {
@@ -27,11 +29,23 @@ function BrowseFundraisers() {
       fetchCampaigns(page);
     }
   }, [page]);
+  useEffect(() => {
+    getStateName();
+  }, []);
+  const getStateName = async (country) => {
+    console.log("Country Name checking", country);
+    const states = await axios.get(
+      `https://countriesnow.space/api/v0.1/countries/states/q?country=India`
+    );
+    setStates(states?.data?.data.states);
 
-  const fetchCampaigns = async (page) => {
+    console.log(states, "checking for states");
+  };
+
+  const fetchCampaigns = async (page, location = selectedLocation) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/fundRaiser/createFundRaiserPost?page=${page}&limit=2&location=bihar`
+        `http://localhost:4000/api/fundRaiser/createFundRaiserPost?page=${page}&limit=2&location=${location}`
       );
       const newCampaigns = response.data.posts;
       setCampaigns((prevCampaigns) => [...prevCampaigns, ...newCampaigns]);
@@ -98,11 +112,52 @@ function BrowseFundraisers() {
                   </button>
                 </div>
                 <span className="text-gray-600">from</span>
-                <div className="relative">
-                  <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-full bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                <div className="relative inline-block text-left">
+                  <button
+                    onClick={() =>
+                      setShowLocationDropdown(!showLocationDropdown)
+                    }
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-full bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
                     {selectedLocation}
                     <ChevronDown className="ml-2 h-4 w-4" />
                   </button>
+
+                  {showLocationDropdown && (
+                    <div className="absolute z-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                      <div className="py-1 max-h-60 overflow-y-auto">
+                        <button
+                          onClick={() => {
+                            setSelectedLocation("All Locations");
+                            setShowLocationDropdown(false);
+                            setCampaigns([]);
+                            setPage(1);
+                            fetchCampaigns(1, "All Locations"); // Reset filter
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          All Locations
+                        </button>
+
+                        {/* Dynamic list from API */}
+                        {states.map((state, index) => (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              setSelectedLocation(state.name);
+                              setShowLocationDropdown(false);
+                              setCampaigns([]);
+                              setPage(1);
+                              fetchCampaigns(1, state.name);
+                            }}
+                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            {state.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <button className="text-red-500 hover:text-red-600 ml-auto">
                   Reset Filters
@@ -148,11 +203,7 @@ function BrowseFundraisers() {
                               <div
                                 className="bg-emerald-500 h-2 rounded-full"
                                 style={{
-                                  width: `${
-                                    (20000 /
-                                      campaign.goal) *
-                                    100
-                                  }%`,
+                                  width: `${(20000 / campaign.goal) * 100}%`,
                                 }}
                               ></div>
                             </div>
